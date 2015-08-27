@@ -32,7 +32,9 @@ def pn_file(name):
 
 
 def line_process(leng, signal, variance, contrue, num):
-    pid = os.getpid()
+    #pid = os.getpid()
+    print "process starts!"
+
     out_fisher = "simulation-fisher_exclusive_"+"len"+str(leng)+"sig"+str(signal)+"vari"+str(variance)+"noise"+str(contrue)
     out_proposed = "simulationout-proposedmcmcp_exclusive_len"+str(leng)+"sig"+str(signal)+"vari"+str(variance)+"noise"+str(contrue)
     out_existing = "simulationout-proposedmcmcn_exclusive_len"+str(leng)+"sig"+str(signal)+"vari"+str(variance)+"noise"+str(contrue)
@@ -79,6 +81,8 @@ def line_process(leng, signal, variance, contrue, num):
 
     for i in range(5):
         print "i=%d", i
+        sys.stdout.flush()
+
         cmd = "sh throw_child_fisher_exclusive.sh "+out_fisher+" "+out_proposed+" "+out_existing+" "+out_poisson_p+" "+out_poisson_s+" "+str(i)+" "+str(leng)+" "+str(signal)+" "+str(variance)+" "+str(contrue)+" "+str(num)+" "+str(i)+""
         os.system(cmd)
     """
