@@ -48,7 +48,9 @@ def make_freq(mat):
     return f_p, f_s
 
 def prplot(fisher, proposed, existing, poisson_p, poisson_s, rn, leng, signal, variance, noise, num, roop_n):
-    pid = os.getpid()
+    #pid = os.getpid()
+    print "prplot starts!"
+
     fpos_fisher = "pos_"+fisher+"_"+str(rn)+".out"
     fneg_fisher = "neg_"+fisher+"_"+str(rn)+".out"
 
@@ -68,6 +70,7 @@ def prplot(fisher, proposed, existing, poisson_p, poisson_s, rn, leng, signal, v
     neg_poi_s = []
 
     for i in range(5):
+        print "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii=%d", i
         m = ins.normal_dist(leng,leng,signal, 0.0, variance, noise, 1, "b")
         datafile = "data"+proposed+".out"
         bm = tc.read_and_writedata_sim_withoutfile(m, 0.5, datafile)
@@ -79,15 +82,19 @@ def prplot(fisher, proposed, existing, poisson_p, poisson_s, rn, leng, signal, v
         print "file1", inproposed1
         cmd="sh child_poissonandproposed_exclusive.sh "+str(leng)+" "+str(num)+" "+datafile+" "+inproposed1+""
         os.system(cmd)
+        print "inproposed1"
+
         inproposed2= proposed+"_num"+str(num*5*10)
         print "file2", inproposed2
         cmd="sh child_poissonandproposed_exclusive.sh "+str(leng)+" "+str(num*10)+" "+datafile+" "+inproposed2+""
         os.system(cmd)
+        print "inproposed2"
 
         inexisting1 = existing+"_num"+str(num*5)
         print "inexisting1", inexisting1
         cmd="sh child_poissonandexisting_exclusive.sh "+str(leng)+" "+str(num)+" "+datafile+" "+inexisting1+""
         os.system(cmd)
+
         inexisting2 = existing+"_num"+str(num*5*10)
         print "inexisting2", inexisting2
         cmd="sh child_poissonandexisting_exclusive.sh "+str(leng)+" "+str(num*10)+" "+datafile+" "+inexisting2+""

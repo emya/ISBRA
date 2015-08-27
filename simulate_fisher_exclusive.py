@@ -78,6 +78,7 @@ def line_process(leng, signal, variance, contrue, num):
     os.system(cmd)
 
     for i in range(5):
+        print "i=%d", i
         cmd = "sh throw_child_fisher_exclusive.sh "+out_fisher+" "+out_proposed+" "+out_existing+" "+out_poisson_p+" "+out_poisson_s+" "+str(i)+" "+str(leng)+" "+str(signal)+" "+str(variance)+" "+str(contrue)+" "+str(num)+" "+str(i)+""
         os.system(cmd)
     """

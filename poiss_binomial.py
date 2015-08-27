@@ -14,8 +14,10 @@ def poisson_p(mat):
     f_p, f_s = make_freq(mat)
     # fix_mc == "p" #
     p_mat_p = pois_fixposition(mat)
+    print "done p_mat_p"
     # fix_mc == "s" #
     p_mat_s = pois_fixsample(mat)
+    print "done p_mat_s"
     return p_mat_p, p_mat_s
 
 """
@@ -74,7 +76,7 @@ def pois_fixposition(mat):
     f_p, f_s = make_freq(mat)
     print "f_p", f_p
     #print "f_s", f_s
-    print "jmat", origina_j
+    #print "jmat", origina_j
     for i in range(n_p):
         for j in range(i+1, n_p):
             test_s = origina_j[i][j]
@@ -125,7 +127,7 @@ def pois_fixsample(mat):
                 for c in combinations(s_list, t):
                     c = list(c)
                     remain_l = list(set(s_list) - set(c))
-                    print "c", c
+                    #print "c", c
                     #print "remain",remain_l
                     subtotal = 1
                     for s in range(t):
