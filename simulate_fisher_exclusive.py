@@ -135,12 +135,12 @@ def line_process(leng, signal, variance, contrue, num):
     plot_pr(leng, out_fisher, p_fisher, n_fisher)
     plot_pr(leng, out_poisson_p, p_poi_p, n_poi_p)
     plot_pr(leng, out_poisson_s, p_poi_s, n_poi_s)
-    #plot_pr(leng, inproposed1, p_proposed1, n_proposed1)
+    plot_pr(leng, inproposed1, p_proposed1, n_proposed1)
     plot_pr(leng, inexisting1, p_existing1, n_existing1)
 
     print "inproposed2", inproposed2, "p_proposed2", p_proposed2
 
-    #plot_pr(leng, inproposed2, p_proposed2, n_proposed2)
+    plot_pr(leng, inproposed2, p_proposed2, n_proposed2)
     plot_pr(leng, inexisting2, p_existing2, n_existing2)
     return 0
 

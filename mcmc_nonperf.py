@@ -43,7 +43,8 @@ def m_c(mat, original_s, original_p, ith, jth, p):
         i, j = decident(mat)
         mat[i][j] = 0
         p = 0
-        return mat, ith, jth, p
+        return mat, i, j, p
+        #return mat, ith, jth, p
     else:
         if mat[ith][jth] == 0:
             mat[ith][jth] = 1
@@ -127,7 +128,7 @@ def mcmc(num, d_file, o_file):
 
         for i in range(leng):
             for j in range(i+1, leng):
-                if jmat[i][j] >= original_jmat[i][j]:
+                if jmat[i][j] > original_jmat[i][j]:
                     cmat[i][j] += 1
                     cmat[j][i] += 1
         count_n += 1
@@ -147,11 +148,11 @@ def mcmc(num, d_file, o_file):
                 tru.append(c) 
             else: fal.append(c)
 
-    fp = open('pos_'+o_file+'.out', 'w')
-    fp.write(' '.join([str(x) for x in tru]))
+    fp = open('pos_'+o_file+'.out', 'a')
+    fp.write(' '.join([str(x) for x in tru])+' ')
     fp.close()
-    fn = open('neg_'+o_file+'.out', 'w')
-    fn.write(' '.join([str(x) for x in fal]))
+    fn = open('neg_'+o_file+'.out', 'a')
+    fn.write(' '.join([str(x) for x in fal])+' ')
     fn.close()
 
 mcmc(num_steps, datafile, outfile)

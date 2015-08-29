@@ -6,6 +6,7 @@ argvs = sys.argv
 #${leng} ${leng} ${an} ${input} ${out}
 
 num_steps = int(argvs[2])
+print "num_step", num_steps
 
 datafile = argvs[3]
 
@@ -43,7 +44,8 @@ def m_c(mat, original_s, original_p, ith, jth, p):
         i, j = decident(mat)
         mat[i][j] = 0
         p = 0
-        return mat, ith, jth, p
+        return mat, i, j, p
+        #return mat, ith, jth, p
     else:
         if mat[ith][jth] == 0:
             mat[ith][jth] = 1
@@ -70,6 +72,7 @@ def m_c(mat, original_s, original_p, ith, jth, p):
                         jth = l
                         p = 0
                     return mat, ith, jth, p
+                    #return mat, k, h, p
                
                 else:
                     if mat[ith][l] == 0:
@@ -95,11 +98,18 @@ def jaccade(mat):
 def verify_perfect(mat, original_p, original_s):
     mat_p = [sum(mat[i]) for i in range(len(mat))]
     mat_s = [0 for i in range(len(mat[0]))]
+
     for i in range(len(mat[0])):
         s = 0
         for j in range(len(mat)):
             s += mat[j][i]
         mat_s[i] = s
+
+    print "mat_p", mat_p
+    print "ori_p", original_p
+    print "mat_s", mat_s
+    print "ori_s", original_s
+
     return mat_p == original_p and mat_s == original_s
 
 def mcmc(num, d_file, o_file):
@@ -137,7 +147,7 @@ def mcmc(num, d_file, o_file):
         if verify_perfect(mat, original_p, original_s):
             for i in range(leng):
                 for j in range(i+1, leng):
-                    if jmat[i][j] >= original_jmat[i][j]:
+                    if jmat[i][j] > original_jmat[i][j]:
                         cmat[i][j] += 1
                         cmat[j][i] += 1
             count_n += 1
@@ -159,11 +169,11 @@ def mcmc(num, d_file, o_file):
                 tru.append(c) 
             else: fal.append(c)
 
-    fp = open('pos_'+o_file+'.out', 'w')
-    fp.write(' '.join([str(x) for x in tru]))
+    fp = open('pos_'+o_file+'.out', 'a')
+    fp.write(' '.join([str(x) for x in tru])+' ')
     fp.close()
-    fn = open('neg_'+o_file+'.out', 'w')
-    fn.write(' '.join([str(x) for x in fal]))
+    fn = open('neg_'+o_file+'.out', 'a')
+    fn.write(' '.join([str(x) for x in fal])+' ')
     fn.close()
 
 mcmc(num_steps, datafile, outfile)
