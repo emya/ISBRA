@@ -12,12 +12,13 @@ argvs = sys.argv
 
 def poisson_p(mat):
     f_p, f_s = make_freq(mat)
-    # fix_mc == "p" #
     p_mat_p = pois_fixposition(mat)
     print "done p_mat_p"
-    # fix_mc == "s" #
-    p_mat_s = pois_fixsample(mat)
+    sys.stdout.flush()
+    #p_mat_s = pois_fixsample(mat)
+    p_mat_s = pois_fixsample_byR(mat)
     print "done p_mat_s"
+    sys.stdout.flush()
     return p_mat_p, p_mat_s
 
 """
@@ -110,7 +111,10 @@ def pois_fixsample(mat):
     p_mat = [[0 for i in range(n_p)]for i in range(n_p)]
     f_p, f_s = make_freq(mat)
     print "f_s", f_s
+    sys.stdout.flush()
     for i in range(n_p):
+        print "n_p", n_p
+        sys.stdout.flush()
         for j in range(i+1, n_p):
             #print "*******************************************"
             test_s = original_j[i][j]
@@ -155,27 +159,27 @@ def pois_fixsample_byR(mat):
     n_s = len(mat[0])
     p_mat = [[0 for i in range(n_p)]for i in range(n_p)]
     f_p, f_s = make_freq(mat)
-    print "f_s", f_s
+    #print "f_s", f_s
     list_rate = [x**2 for x in f_s]
     f = open("b.txt", "w")
     b = [str(x)+" " for x in list_rate]
     b.append("\n")
-    print "b", b
+    #print "b", b
     f.writelines(b)
     f.close()
     for i in range(n_p):
         for j in range(i+1, n_p):
-            print "*******************************************"
+            #print "*******************************************"
             test_s = original_j[i][j]
-            cmd = "R --vanilla --args "+str(test_s)+" < /home/ayada/cell/fixsample_poison.R"
+            cmd = "R --vanilla --args "+str(test_s)+" < ./fixsample_poisson.R"
             os.system(cmd)
             f1 = open("s.txt", "r")
             l = f1.readline()
-            print "l", l
+            #print "l", l
             total = float(l)
-            print "test_s", test_s
-            print "*******************************************"
-            print "total", total
+            #print "test_s", test_s
+            #print "*******************************************"
+            #print "total", total
             if 1.0-(0.1)**15 <= total <= 1.0+(0.1)**15:
                 p_mat[i][j] = 1
                 p_mat[j][i] = 1
