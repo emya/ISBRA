@@ -97,8 +97,8 @@ def mcmc(num, d_file, o_file):
     original_data = []
     f = open(d_file, "r")
     for line in f:
-        l = line.replace(' \n', '').split(' ')
-        print l
+        l = line.replace('\n', '').split(' ')
+        #print "l", l
         original_data.append([int(x) for x in l])
     f.close()
 

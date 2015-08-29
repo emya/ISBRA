@@ -58,14 +58,14 @@ def prplot(fisher, proposed, existing, poisson_p, poisson_s, rn, leng, signal, v
     pos_fisher = []
     neg_fisher = []
 
-    fpos_poi_p = "pos_"+poisson_p+str(rn)+".out"
-    fneg_poi_p = "neg_"+poisson_p+str(rn)+".out"
+    fpos_poi_p = "pos_"+poisson_p+"_"+str(rn)+".out"
+    fneg_poi_p = "neg_"+poisson_p+"_"+str(rn)+".out"
 
     pos_poi_p = []
     neg_poi_p = []
 
-    fpos_poi_s = "pos_"+poisson_s+str(rn)+".out"
-    fneg_poi_s = "neg_"+poisson_s+str(rn)+".out"
+    fpos_poi_s = "pos_"+poisson_s+"_"+str(rn)+".out"
+    fneg_poi_s = "neg_"+poisson_s+"_"+str(rn)+".out"
 
     pos_poi_s = []
     neg_poi_s = []
@@ -79,7 +79,9 @@ def prplot(fisher, proposed, existing, poisson_p, poisson_s, rn, leng, signal, v
         bm = tc.read_and_writedata_sim_withoutfile(m, 0.5, datafile)
         ft = fisher_test2_exclusive.fisher_test(m)
 
-        poi_pmat_p, poi_pmat_s = poi.poisson_p(m)
+        #poi_pmat_p, poi_pmat_s = poi.poisson_p(m)
+        poi_pmat_p = [[0 for i in range(50)] for j in range(50)]
+        poi_pmat_s = [[0 for i in range(50)] for j in range(50)]
 
         inproposed1 = proposed+"_num"+str(num*5)
         print "file1", inproposed1
