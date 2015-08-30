@@ -16,7 +16,7 @@ def poisson_p(mat):
     print "done p_mat_p"
     sys.stdout.flush()
     #p_mat_s = pois_fixsample(mat)
-    p_mat_s = pois_fixsample_byR(mat)
+    p_mat_s = pois_fixsample_bylessR(mat)
     print "done p_mat_s"
     sys.stdout.flush()
     return p_mat_p, p_mat_s
@@ -69,6 +69,7 @@ def pois_fixposition_byR(mat, roop_n):
                 p_mat[i][j] = -math.log10(ta)
                 p_mat[j][i] = -math.log10(ta)
     return p_mat
+
 def pois_fixposition(mat):
     origina_j = makej(mat)
     n_p = len(mat)
@@ -180,6 +181,57 @@ def pois_fixsample_byR(mat):
             #print "test_s", test_s
             #print "*******************************************"
             #print "total", total
+            if 1.0-(0.1)**15 <= total <= 1.0+(0.1)**15:
+                p_mat[i][j] = 1
+                p_mat[j][i] = 1
+            else:
+                p_mat[i][j] = -math.log10(1-total)
+                p_mat[j][i] = -math.log10(1-total)
+    return p_mat
+
+def pois_fixsample_bylessR(mat):
+    original_j = makej(mat)
+    n_p = len(mat)
+    n_s = len(mat[0])
+    p_mat = [[0 for i in range(n_p)]for i in range(n_p)]
+    f_p, f_s = make_freq(mat)
+    #print "f_s", f_s
+    list_rate = [x**2 for x in f_s]
+    f = open("b.txt", "w")
+    b = [str(x)+" " for x in list_rate]
+    b.append("\n")
+    #print "b", b
+    f.writelines(b)
+    f.close()
+
+    tests_s = []
+    for i in range(n_p):
+        for j in range(i+1, n_p):
+            #print "*******************************************"
+            test_s = original_j[i][j]
+            tests_s.append(test_s)
+    
+    f = open("tests.txt", "w")
+    f.write(" ".join([str(x) for x in tests_s]))
+    f.close()
+    
+    cmd = "R --vanilla --args "+str(test_s)+" < ./fixsample_poisson_less.R"
+    os.system(cmd)
+    f1 = open("s.txt", "r")
+    l = []
+    for line in f1:
+        l += line.replace('\n','').split(' ')
+    f1.close()
+
+    list_float = [float(x) for x in l]
+            #print "l", l
+            #total = float(l)
+            #print "test_s", test_s
+            #print "*******************************************"
+            #print "total", total
+    for i in range(n_p):
+        for j in range(i+1, n_p):
+            total = list_float.pop(0)
             if 1.0-(0.1)**15 <= total <= 1.0+(0.1)**15:
                 p_mat[i][j] = 1
                 p_mat[j][i] = 1

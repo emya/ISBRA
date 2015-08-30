@@ -1,0 +1,26 @@
+getwd()
+args <- commandArgs()
+#finput <- paste("b", roop_n, ".txt", sep="")
+finput <- paste("b.txt", sep="")
+p <- scan(finput, "character", sep="\n")
+#print(p)
+p <- t(sapply(strsplit(p, " "), function(x){as.numeric(x)}))
+
+tests_s <- paste("tests.txt", sep="")
+ts_s <- scan(tests_s, "character", sep="\n")
+ts_s <- t(sapply(strsplit(ts_s, " "), function(x){as.numeric(x)}))
+
+print(ts_s)
+#install.packages("poibin")
+library("poibin")
+anss = c()
+for (test_s in ts_s) {
+    ans = ppoibin(kk=test_s ,pp=p)
+    anss <- c(anss, ans)
+}
+print(anss)
+is.vector(anss)
+#foutput <- paste("s", roop_n, ".txt", sep="")
+foutput <- paste("s.txt", sep="")
+#lapply(anss, write, "s.txt")
+write(anss, file=foutput)
